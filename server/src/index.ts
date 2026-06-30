@@ -1,9 +1,6 @@
+import './database/db.js';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express from 'express';
-import path from 'node:path';
-
-dotenv.config({ path: path.resolve(process.cwd(), '.env.development') });
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
