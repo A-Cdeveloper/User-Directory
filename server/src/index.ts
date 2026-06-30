@@ -1,6 +1,7 @@
 import './database/db.js';
 import cors from 'cors';
 import express from 'express';
+import { seed } from './database/seed.js';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3001;
@@ -14,4 +15,5 @@ app.get('/health', (_req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  seed();
 });

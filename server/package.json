@@ -6,9 +6,11 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "tsx watch src/index.ts",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "seed": "tsx src/database/seed.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.4.0",
     "better-sqlite3": "^12.10.0",
     "cors": "^2.8.6",
     "dotenv": "^16.6.1",
