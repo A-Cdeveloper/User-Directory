@@ -4,6 +4,8 @@ export type SortColumn = (typeof SORT_COLUMNS)[number];
 
 export type SortDirection = 'asc' | 'desc';
 
+export type { UserQueryParams } from '../schemas/userQuerySchema.js';
+
 export type User = {
   id: number;
   avatar: string;
@@ -17,16 +19,6 @@ export type User = {
 export type FilterOption = {
   value: string;
   count: number;
-};
-
-export type UserQueryParams = {
-  page: number;
-  limit: number;
-  search: string;
-  nationalities: string[];
-  hobbies: string[];
-  sortBy: SortColumn;
-  sortDir: SortDirection;
 };
 
 export type UsersResponse = {
