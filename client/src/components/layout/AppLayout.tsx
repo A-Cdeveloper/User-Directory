@@ -11,7 +11,7 @@ const AppLayout = () => {
         Skip to main content
       </a>
 
-      <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col px-4">
+      <div className="mx-auto flex h-screen w-full max-w-5xl flex-col px-4">
         <Header />
         <Outlet />
       </div>
