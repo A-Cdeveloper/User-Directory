@@ -1,11 +1,14 @@
+import ErrorBoundary from './errorboundary/ErrorBoundary';
 import AppRouterProvider from './router/AppRouterProvider';
 import TanstackProvider from './tanstackquery/TanstackProvider';
 
 const AppProviders = () => {
   return (
-    <TanstackProvider>
-      <AppRouterProvider />
-    </TanstackProvider>
+    <ErrorBoundary>
+      <TanstackProvider>
+        <AppRouterProvider />
+      </TanstackProvider>
+    </ErrorBoundary>
   );
 };
 

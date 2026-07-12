@@ -25,7 +25,7 @@ const HomePage = () => {
       </Sidebar>
 
       <MainContent>
-        <FilterBox totalCount={data?.pagination?.limit ?? 0} />
+        <FilterBox totalCount={data?.pagination?.total ?? 0} />
         <UsersList users={data?.users ?? []} />
       </MainContent>
     </div>
