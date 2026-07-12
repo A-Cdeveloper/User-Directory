@@ -1,12 +1,14 @@
 import { useId, useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import FilterItem from './FilterItem';
+import type { FilterOption } from '@/types/user';
 
 type FilterGroupProps = {
   title: string;
+  options: FilterOption[];
 };
 
-const FilterGroup = ({ title }: FilterGroupProps) => {
+const FilterGroup = ({ title, options }: FilterGroupProps) => {
   const headingId = useId();
   const listId = useId();
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +27,9 @@ const FilterGroup = ({ title }: FilterGroupProps) => {
         aria-controls={listId}
         onClick={() => setIsOpen((open) => !open)}
       >
-        <span>{title}</span>
+        <span>
+          {title} ({options.length})
+        </span>
         {isOpen ? (
           <ChevronDown className="size-4 shrink-0" aria-hidden />
         ) : (
@@ -39,21 +43,9 @@ const FilterGroup = ({ title }: FilterGroupProps) => {
           className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pe-2 py-4
           border-t border-border"
         >
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
-          <FilterItem />
+          {options.map((option) => (
+            <FilterItem key={option.value} value={option.value} count={option.count} />
+          ))}
         </ul>
       )}
     </div>
