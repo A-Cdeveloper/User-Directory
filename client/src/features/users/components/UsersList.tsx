@@ -1,11 +1,11 @@
 import UserItem from './UserItem';
+import type { User } from '@/types/user';
 
-const UsersList = () => {
-  const arrayExampe = new Array(100).fill(0);
+const UsersList = ({ users }: { users: User[] }) => {
   return (
-    <div className="custom-scrollbar w-full min-h-0 flex-1 overflow-y-auto py-6 pe-4">
-      {arrayExampe.map((_, index) => (
-        <UserItem key={index} />
+    <div className="custom-scrollbar flex w-full min-h-0 flex-1 flex-col gap-2 overflow-y-auto py-6 pe-4">
+      {users.map((user) => (
+        <UserItem key={user.id} user={user} />
       ))}
     </div>
   );
