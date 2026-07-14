@@ -1,17 +1,22 @@
-import { useId, useState } from 'react';
+import { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import FilterItem from './FilterItem';
 import type { FilterOption } from '@/types/user';
+import { Button } from '@/components/ui/button';
+import { useUsersParams } from '@/features/users/hooks/useUsersParams';
 
 type FilterGroupProps = {
   title: string;
+  paramKey: string;
   options: FilterOption[];
 };
 
-const FilterGroup = ({ title, options }: FilterGroupProps) => {
-  const headingId = useId();
-  const listId = useId();
-  const [isOpen, setIsOpen] = useState(false);
+const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
+  const headingId = `${paramKey}-heading`;
+  const listId = `${paramKey}-list`;
+  const [isOpen, setIsOpen] = useState(true);
+  const { getListParam, setListParamValue } = useUsersParams();
+  const selected = getListParam(paramKey);
 
   return (
     <div
@@ -19,13 +24,14 @@ const FilterGroup = ({ title, options }: FilterGroupProps) => {
       aria-labelledby={headingId}
       className={`flex flex-col border-b ${isOpen ? 'h-0 min-h-[40%]' : 'shrink-0'}`}
     >
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         id={headingId}
         className="mb-0 flex shrink-0 items-center justify-between gap-2 font-bold text-muted-foreground py-2"
         aria-expanded={isOpen}
         aria-controls={listId}
         onClick={() => setIsOpen((open) => !open)}
+        aria-label={`Toggle ${title} filter`}
       >
         <span>
           {title} ({options.length})
@@ -35,7 +41,7 @@ const FilterGroup = ({ title, options }: FilterGroupProps) => {
         ) : (
           <ChevronRight className="size-4 shrink-0" aria-hidden />
         )}
-      </button>
+      </Button>
 
       {isOpen && (
         <ul
@@ -44,7 +50,14 @@ const FilterGroup = ({ title, options }: FilterGroupProps) => {
           border-t border-border"
         >
           {options.map((option) => (
-            <FilterItem key={option.value} value={option.value} count={option.count} />
+            <FilterItem
+              key={option.value}
+              paramKey={paramKey}
+              value={option.value}
+              checked={selected.includes(option.value)}
+              count={option.count}
+              onCheckedChange={(checked) => setListParamValue(paramKey, option.value, checked)}
+            />
           ))}
         </ul>
       )}
@@ -52,4 +65,4 @@ const FilterGroup = ({ title, options }: FilterGroupProps) => {
   );
 };
 
-export default FilterGroup;
+export default FilterUserGroup;

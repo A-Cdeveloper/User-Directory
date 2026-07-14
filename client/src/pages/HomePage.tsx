@@ -6,15 +6,22 @@ import FilterBox from '@/features/users/components/filterbox/FilterBox';
 import FilterSidebar from '@/features/users/components/sidebar/FilterSidebar';
 import UsersList from '@/features/users/components/UsersList';
 import { useUsers } from '@/features/users/hooks/useUsers';
+import { useUsersParams } from '@/features/users/hooks/useUsersParams';
 
 const HomePage = () => {
-  const { data, isLoading, error } = useUsers({ limit: 100 });
+  const { getListParam } = useUsersParams();
+  const { data, isLoading, error } = useUsers({
+    limit: 100,
+    nationalities: getListParam('nationalities'),
+    hobbies: getListParam('hobbies'),
+  });
 
-  if (isLoading) {
+  // Keep sidebar mounted while filters refetch (avoid skeleton flash)
+  if (isLoading && !data) {
     return <HomePageSkeleton />;
   }
 
-  if (error) {
+  if (error && !data) {
     return <ErrorMessage message={error.message} />;
   }
 

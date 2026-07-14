@@ -1,19 +1,7 @@
 import { api } from '@/lib/api';
+import type { GetUsersParams } from '@/types/users';
 import type { UsersResponse } from '@/types/user';
 import { isAxiosError } from 'axios';
-
-type sortBy = 'first_name' | 'last_name' | 'nationality' | 'age';
-type sortDir = 'asc' | 'desc';
-
-export type GetUsersParams = {
-  page?: number;
-  limit?: number;
-  search?: string;
-  nationalities?: string[];
-  hobbies?: string[];
-  sortBy?: sortBy;
-  sortDir?: sortDir;
-};
 
 export const getUsers = async (params: GetUsersParams = {}): Promise<UsersResponse> => {
   try {
