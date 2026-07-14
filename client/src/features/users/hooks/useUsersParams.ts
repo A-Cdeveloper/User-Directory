@@ -33,8 +33,15 @@ export const useUsersParams = () => {
     setSearchParams(nextParams);
   };
 
+  const clearListParam = (key: string) => {
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete(key);
+    setSearchParams(nextParams);
+  };
+
   return {
     getListParam,
     setListParamValue,
+    clearListParam,
   };
 };

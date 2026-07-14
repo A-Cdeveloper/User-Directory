@@ -15,27 +15,32 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
   const headingId = `${paramKey}-heading`;
   const listId = `${paramKey}-list`;
   const [isOpen, setIsOpen] = useState(true);
-  const { getListParam, setListParamValue } = useUsersParams();
+  const { getListParam, setListParamValue, clearListParam } = useUsersParams();
   const selected = getListParam(paramKey);
 
   return (
     <div
       role="group"
       aria-labelledby={headingId}
-      className={`flex flex-col border-b ${isOpen ? 'h-0 min-h-[40%]' : 'shrink-0'}`}
+      className={`flex flex-col border-b ${isOpen ? 'h-0 min-h-[45%]' : 'shrink-0'}`}
     >
       <Button
         variant="ghost"
         id={headingId}
-        className="mb-0 flex shrink-0 items-center justify-between gap-2 font-bold text-muted-foreground py-2"
+        className="mb-0 flex shrink-0 items-center justify-between gap-2 font-bold text-muted-foreground py-2 rounded-none
+        hover:rounded-none ps-2"
         aria-expanded={isOpen}
         aria-controls={listId}
         onClick={() => setIsOpen((open) => !open)}
         aria-label={`Toggle ${title} filter`}
       >
         <span>
-          {title} ({options.length})
+          {title}{' '}
+          {selected?.length > 0 && (
+            <span className="text-sm text-muted-foreground">({selected?.length})</span>
+          )}
         </span>
+
         {isOpen ? (
           <ChevronDown className="size-4 shrink-0" aria-hidden />
         ) : (
@@ -44,22 +49,37 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
       </Button>
 
       {isOpen && (
-        <ul
-          id={listId}
-          className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pe-2 py-4
+        <>
+          <ul
+            id={listId}
+            className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-2 py-4
           border-t border-border"
-        >
-          {options.map((option) => (
-            <FilterItem
-              key={option.value}
-              paramKey={paramKey}
-              value={option.value}
-              checked={selected.includes(option.value)}
-              count={option.count}
-              onCheckedChange={(checked) => setListParamValue(paramKey, option.value, checked)}
-            />
-          ))}
-        </ul>
+          >
+            {options.map((option) => (
+              <FilterItem
+                key={option.value}
+                paramKey={paramKey}
+                value={option.value}
+                checked={selected.includes(option.value)}
+                count={option.count}
+                onCheckedChange={(checked) => setListParamValue(paramKey, option.value, checked)}
+              />
+            ))}
+          </ul>
+          {selected?.length > 0 && (
+            <div className="px-2 justify-end flex">
+              <span
+                className="ps-6 text-[13px] my-4 cursor-pointer text-destructive"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  clearListParam(paramKey);
+                }}
+              >
+                reset filter
+              </span>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
