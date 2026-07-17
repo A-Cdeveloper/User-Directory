@@ -3,7 +3,7 @@ import type { Filters } from '@/types/user';
 
 const FilterSidebar = ({ filters }: { filters?: Filters }) => {
   return (
-    <div className="flex h-full flex-col pe-2">
+    <div className="flex h-auto flex-col pe-2 md:h-full">
       <FilterUsersGroup
         title="Nationalities"
         paramKey="nationalities"

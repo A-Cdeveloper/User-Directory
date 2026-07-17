@@ -14,7 +14,7 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
   const sortDir = (getParam('sortDir') || DEFAULT_SORT_DIR) as SortDir;
 
   return (
-    <div className="flex h-1/6 w-full flex-col justify-between bg-accent p-4">
+    <div className="flex w-full shrink-0 flex-col gap-3 bg-accent p-4">
       {/* <div className="flex items-center justify-between gap-4">
         <Input
           type="search"

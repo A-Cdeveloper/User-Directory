@@ -22,7 +22,7 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
     <div
       role="group"
       aria-labelledby={headingId}
-      className={`flex flex-col border-b ${isOpen ? 'h-0 min-h-[45%]' : 'shrink-0'}`}
+      className={`flex flex-col border-b ${isOpen ? 'md:h-0 md:min-h-[45%]' : 'shrink-0'}`}
     >
       <Button
         variant="ghost"
