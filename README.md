@@ -1,14 +1,12 @@
-# Presight Exercise
+# User Directory
 
-Full-stack User Directory application.
-
-**Status:** Server API complete. Client UI in progress.
+Full-stack application for browsing, filtering, sorting, and paginating a directory of users.
 
 ## Tech Stack
 
-**Client (planned):** React 19, TypeScript, Vite, Tailwind CSS v4, TanStack Query, TanStack Virtual, React Router  
+**Client:** React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, React Router, shadcn/ui  
 **Server:** Node.js, Express 5, TypeScript, better-sqlite3 (SQLite), Zod  
-**Architecture:** npm workspaces monorepo
+**Architecture:** npm workspaces monorepo (`client` + `server`)
 
 ## Getting Started
 
@@ -16,29 +14,24 @@ Full-stack User Directory application.
 npm install
 ```
 
-### Server only
-
-```bash
-npm run dev -w server
-# or
-cd server && npm run dev
-```
-
-| Service | URL                             |
-| ------- | ------------------------------- |
-| Health  | http://localhost:3001/health    |
-| API     | http://localhost:3001/api/users |
-
-### Full stack (when client is ready)
+### Full stack
 
 ```bash
 npm run dev
 ```
 
-| Service | URL                   |
-| ------- | --------------------- |
-| Client  | http://localhost:3002 |
-| Server  | http://localhost:3001 |
+| Service | URL                             |
+| ------- | ------------------------------- |
+| Client  | http://localhost:3002           |
+| Server  | http://localhost:3001           |
+| Health  | http://localhost:3001/health    |
+| API     | http://localhost:3001/api/users |
+
+### Server only
+
+```bash
+npm run dev -w server
+```
 
 ### Seed database
 
@@ -47,6 +40,26 @@ Seed runs automatically on server start if the database is empty. To run manuall
 ```bash
 npm run seed -w server
 ```
+
+## Features
+
+### Server
+
+- SQLite schema with 1000 seeded users (Faker)
+- Search, filter, sort, and pagination
+- Faceted filter counts in the response
+- Zod query validation
+- Layered structure: routes → services → lib → schemas → types
+
+### Client
+
+- User list with infinite scroll (`useInfiniteQuery` + IntersectionObserver)
+- Filter sidebar (nationalities OR, hobbies AND) synced to the URL
+- Sort by field and direction, synced to the URL
+- Loading and error states (skeletons, error boundary / route error page)
+- Shareable filter/sort state via search params
+
+**Still planned:** debounced search UI, list virtualization, mobile filter drawer
 
 ## API
 
@@ -112,48 +125,25 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 | 404    | Unknown route                             |
 | 500    | Internal server error                     |
 
-## Features
-
-### Server (done)
-
-- SQLite schema with 1000 seeded users (Faker)
-- Search, filter, sort, pagination
-- Faceted filter counts in response
-- Zod query validation
-- Layered structure: routes → services → lib → schemas → types
-
-### Client (planned)
-
-- Paginated user list with infinite scroll
-- Search with debounce
-- Filter sidebar (nationalities OR, hobbies AND)
-- URL-synced filters
-- Virtualized list (`@tanstack/react-virtual`)
-
 ## Project Structure
 
 ```
-preversion/
-├── client/                      # React app (WIP)
-│   └── .env.development
+├── client/                 # React + Vite app
+│   └── src/
+│       ├── features/users/ # Users UI, hooks, API
+│       ├── pages/
+│       ├── providers/
+│       └── components/
 ├── server/
 │   └── src/
-│       ├── index.ts             # Express entry
-│       ├── database/
-│       │   ├── db.ts            # SQLite connection + schema
-│       │   └── seed.ts          # Faker seed (1000 users)
+│       ├── index.ts
+│       ├── database/       # SQLite + seed
 │       ├── routes/
-│       │   └── users.ts         # HTTP layer
 │       ├── services/
-│       │   └── usersService.ts  # Business + SQL logic
 │       ├── schemas/
-│       │   └── userQuerySchema.ts
 │       ├── lib/
-│       │   └── buildWhereClause.ts
 │       ├── types/
-│       │   └── user.ts
 │       └── middleware/
-│           └── errorHandler.ts
 ├── eslint.config.js
 ├── prettier.config.js
 └── package.json
