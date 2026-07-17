@@ -7,15 +7,21 @@ import FilterSidebar from '@/features/users/components/sidebar/FilterSidebar';
 import UsersList from '@/features/users/components/UsersList';
 import { useUsers } from '@/features/users/hooks/useUsers';
 import { useUsersParams } from '@/features/users/hooks/useUsersParams';
+import { DEFAULT_SORT_BY, DEFAULT_SORT_DIR } from '@/features/users/constants';
+import type { SortBy, SortDir } from '@/types/users';
 
 const HomePage = () => {
-  const { getListParam } = useUsersParams();
+  const { getListParam, getParam } = useUsersParams();
   const nationalities = getListParam('nationalities');
   const hobbies = getListParam('hobbies');
+  const sortBy = (getParam('sortBy') || DEFAULT_SORT_BY) as SortBy;
+  const sortDir = (getParam('sortDir') || DEFAULT_SORT_DIR) as SortDir;
   const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } = useUsers({
     limit: 20,
     nationalities,
     hobbies,
+    sortBy,
+    sortDir,
   });
 
   // Keep sidebar mounted while filters refetch (avoid skeleton flash)
@@ -37,7 +43,7 @@ const HomePage = () => {
         <FilterBox totalCount={data?.pages[0]?.pagination?.total ?? 0} />
         <UsersList
           // Remount on filter change so scroll resets to top
-          key={`n:${nationalities.join(',')}|h:${hobbies.join(',')}`}
+          key={`n:${nationalities.join(',')}|h:${hobbies.join(',')}|sb:${sortBy}|sd:${sortDir}`}
           users={data?.pages.flatMap((page) => page.users) ?? []}
           onFetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage ?? false}

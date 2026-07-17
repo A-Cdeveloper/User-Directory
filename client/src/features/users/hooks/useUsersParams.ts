@@ -11,6 +11,22 @@ const parseList = (value: string | null): string[] => {
 export const useUsersParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const getParam = (key: string): string => {
+    return searchParams.get(key) ?? '';
+  };
+
+  const setParam = (key: string, value: string) => {
+    const nextParams = new URLSearchParams(searchParams);
+
+    if (!value) {
+      nextParams.delete(key);
+    } else {
+      nextParams.set(key, value);
+    }
+
+    setSearchParams(nextParams);
+  };
+
   const getListParam = (key: string): string[] => {
     return parseList(searchParams.get(key));
   };
@@ -40,6 +56,8 @@ export const useUsersParams = () => {
   };
 
   return {
+    getParam,
+    setParam,
     getListParam,
     setListParamValue,
     clearListParam,
