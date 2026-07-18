@@ -4,6 +4,7 @@ import FilterItem from './FilterItem';
 import type { FilterOption } from '@/types/user';
 import { Button } from '@/components/ui/button';
 import { useUsersParams } from '@/features/users/hooks/useUsersParams';
+import { withSelectedFilterOptions } from '@/features/users/utils/withSelectedFilterOptions';
 
 type FilterGroupProps = {
   title: string;
@@ -17,13 +18,10 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
   const [isOpen, setIsOpen] = useState(true);
   const { getListParam, setListParamValue, clearListParam } = useUsersParams();
   const selected = getListParam(paramKey);
+  const visibleOptions = withSelectedFilterOptions(options, selected);
 
   return (
-    <div
-      role="group"
-      aria-labelledby={headingId}
-      className={`flex flex-col border-b ${isOpen ? 'md:h-0 md:min-h-[45%]' : 'shrink-0'}`}
-    >
+    <div role="group" aria-labelledby={headingId} className="flex shrink-0 flex-col border-b">
       <Button
         variant="ghost"
         id={headingId}
@@ -52,10 +50,9 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
         <>
           <ul
             id={listId}
-            className="custom-scrollbar flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-2 py-4
-          border-t border-border"
+            className="custom-scrollbar flex max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]"
           >
-            {options.map((option) => (
+            {visibleOptions.map((option) => (
               <FilterItem
                 key={option.value}
                 paramKey={paramKey}
