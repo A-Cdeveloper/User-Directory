@@ -15,7 +15,10 @@ export const useUsersParams = () => {
     return searchParams.get(key) ?? '';
   };
 
-  const setParam = (key: string, value: string) => {
+  const setParam = (key: string, value: string, options?: { replace?: boolean }) => {
+    const current = searchParams.get(key) ?? '';
+    if (current === value) return;
+
     const nextParams = new URLSearchParams(searchParams);
 
     if (!value) {
@@ -24,7 +27,7 @@ export const useUsersParams = () => {
       nextParams.set(key, value);
     }
 
-    setSearchParams(nextParams);
+    setSearchParams(nextParams, { replace: options?.replace ?? false });
   };
 
   const getListParam = (key: string): string[] => {
