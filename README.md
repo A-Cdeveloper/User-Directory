@@ -54,12 +54,14 @@ npm run seed -w server
 ### Client
 
 - User list with infinite scroll (`useInfiniteQuery` + IntersectionObserver)
+- Debounced search (URL updates immediately; API calls wait ~500ms)
 - Filter sidebar (nationalities OR, hobbies AND) synced to the URL
+- Selected filters stay visible when omitted from top facet options
 - Sort by field and direction, synced to the URL
 - Loading and error states (skeletons, error boundary / route error page)
-- Shareable filter/sort state via search params
+- Shareable filter/sort/search state via search params
 
-**Still planned:** debounced search UI, list virtualization, mobile filter drawer
+**Still planned:** list virtualization, mobile filter drawer
 
 ## API
 
