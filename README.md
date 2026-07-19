@@ -54,6 +54,7 @@ npm run seed -w server
 ### Client
 
 - User list with infinite scroll (`useInfiniteQuery` + IntersectionObserver)
+- Virtualized list rows (`@tanstack/react-virtual`) so only visible cards mount in the DOM
 - Debounced search (URL updates immediately; API calls wait ~500ms)
 - Filter sidebar (nationalities OR, hobbies AND) synced to the URL
 - Selected filters stay visible when omitted from top facet options
@@ -61,7 +62,7 @@ npm run seed -w server
 - Loading and error states (skeletons, error boundary / route error page)
 - Shareable filter/sort/search state via search params
 
-**Still planned:** list virtualization, mobile filter drawer
+**Still planned:** mobile filter drawer
 
 ## API
 
