@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import UserItem from './UserItem';
 import type { User } from '@/types/user';
 import { Spinner } from '@/components/ui/spinner';
+import { useVirtualizer } from '@tanstack/react-virtual';
 
 type UsersListProps = {
   users: User[];
@@ -13,6 +14,13 @@ type UsersListProps = {
 const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: UsersListProps) => {
   const listRef = useRef<HTMLDivElement>(null);
   const endRef = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useVirtualizer({
+    count: users.length,
+    getScrollElement: () => listRef.current,
+    estimateSize: () => 120,
+    overscan: 5,
+  });
 
   useEffect(() => {
     const root = listRef.current;
@@ -35,11 +43,38 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
   return (
     <div
       ref={listRef}
-      className="custom-scrollbar flex w-full min-h-0 flex-1 flex-col gap-2 overflow-y-auto py-6 pe-4"
+      className="custom-scrollbar flex w-full min-h-0 flex-1 flex-col overflow-y-auto py-6 pe-4"
     >
-      {users.map((user) => (
-        <UserItem key={user.id} user={user} />
-      ))}
+      <div
+        style={{
+          height: `${virtualizer.getTotalSize()}px`,
+          width: '100%',
+          position: 'relative',
+        }}
+        className="shrink-0"
+      >
+        {virtualizer.getVirtualItems().map((virtualRow) => {
+          const user = users[virtualRow.index];
+          return (
+            <div
+              key={user.id}
+              data-index={virtualRow.index}
+              ref={virtualizer.measureElement}
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                transform: `translateY(${virtualRow.start}px)`,
+              }}
+            >
+              <div className="py-1">
+                <UserItem user={user} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
       <div ref={endRef}>
         {isFetchingNextPage && (
