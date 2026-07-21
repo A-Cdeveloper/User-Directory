@@ -1,14 +1,15 @@
 import { useSearchParams } from 'react-router';
 
 const parseList = (value: string | null): string[] => {
-  if (!value) return [];
   return value
-    .split('-')
-    .map((part) => part.trim())
-    .filter(Boolean);
+    ? value
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
 };
 
-export const useUsersParams = () => {
+export const useUrlParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const getParam = (key: string): string => {
@@ -46,7 +47,7 @@ export const useUsersParams = () => {
     if (next.length === 0) {
       nextParams.delete(key);
     } else {
-      nextParams.set(key, next.join('-'));
+      nextParams.set(key, next.join(','));
     }
 
     setSearchParams(nextParams);

@@ -3,7 +3,7 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 import FilterItem from './FilterItem';
 import type { FilterOption } from '@/types/user';
 import { Button } from '@/components/ui/button';
-import { useUsersParams } from '@/features/users/hooks/useUsersParams';
+import { useUrlParams } from '@/hooks/useUrlParams';
 import { withSelectedFilterOptions } from '@/features/users/utils/withSelectedFilterOptions';
 
 type FilterGroupProps = {
@@ -16,7 +16,7 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
   const headingId = `${paramKey}-heading`;
   const listId = `${paramKey}-list`;
   const [isOpen, setIsOpen] = useState(true);
-  const { getListParam, setListParamValue, clearListParam } = useUsersParams();
+  const { getListParam, setListParamValue, clearListParam } = useUrlParams();
   const selected = getListParam(paramKey);
   const visibleOptions = withSelectedFilterOptions(options, selected);
 

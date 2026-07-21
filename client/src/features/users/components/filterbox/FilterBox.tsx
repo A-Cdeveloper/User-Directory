@@ -4,14 +4,14 @@ import {
   SORT_BY_OPTIONS,
   SORT_DIR_OPTIONS,
 } from '@/features/users/constants';
-import { useUsersParams } from '@/features/users/hooks/useUsersParams';
+import { useUrlParams } from '@/hooks/useUrlParams';
 import type { SortBy, SortDir } from '@/types/users';
 import SearchInput from './SearchInput';
 import SelectedBadges from './SelectedBadges';
 import SortingField from './SortingField';
 
 const FilterBox = ({ totalCount }: { totalCount: number }) => {
-  const { getParam, setParam, getListParam, setListParamValue, clearAllFilters } = useUsersParams();
+  const { getParam, setParam, getListParam, setListParamValue, clearAllFilters } = useUrlParams();
   const sortBy = (getParam('sortBy') || DEFAULT_SORT_BY) as SortBy;
   const sortDir = (getParam('sortDir') || DEFAULT_SORT_DIR) as SortDir;
   const search = getParam('search');

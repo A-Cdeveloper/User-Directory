@@ -7,12 +7,12 @@ import FilterSidebar from '@/features/users/components/sidebar/FilterSidebar';
 import UsersList from '@/features/users/components/UsersList';
 import { DEFAULT_SORT_BY, DEFAULT_SORT_DIR } from '@/features/users/constants';
 import { useUsers } from '@/features/users/hooks/useUsers';
-import { useUsersParams } from '@/features/users/hooks/useUsersParams';
 import { useDebounce } from '@/hooks/useDebounce';
+import { useUrlParams } from '@/hooks/useUrlParams';
 import type { SortBy, SortDir } from '@/types/users';
 
 const HomePage = () => {
-  const { getListParam, getParam } = useUsersParams();
+  const { getListParam, getParam } = useUrlParams();
   const nationalities = getListParam('nationalities');
   const hobbies = getListParam('hobbies');
   const sortBy = (getParam('sortBy') || DEFAULT_SORT_BY) as SortBy;
