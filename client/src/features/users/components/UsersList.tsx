@@ -40,51 +40,72 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
     return () => observer.disconnect();
   }, [onFetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  return (
-    <div
-      ref={listRef}
-      className="custom-scrollbar flex w-full min-h-0 flex-1 flex-col overflow-y-auto py-6 pe-4"
-    >
+  if (users.length === 0) {
+    return (
       <div
-        style={{
-          height: `${virtualizer.getTotalSize()}px`,
-          width: '100%',
-          position: 'relative',
-        }}
-        className="shrink-0"
+        className="flex w-full min-h-0 flex-1 items-center justify-center py-6 pe-4 text-sm text-muted-foreground"
+        role="status"
       >
-        {virtualizer.getVirtualItems().map((virtualRow) => {
-          const user = users[virtualRow.index];
-          return (
-            <div
-              key={user.id}
-              data-index={virtualRow.index}
-              ref={virtualizer.measureElement}
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                transform: `translateY(${virtualRow.start}px)`,
-              }}
-            >
-              <div className="py-1">
-                <UserItem user={user} />
-              </div>
-            </div>
-          );
-        })}
+        No users found
       </div>
+    );
+  }
 
-      <div ref={endRef}>
-        {isFetchingNextPage && (
-          <div className="w-full flex justify-center items-center gap-2 text-sm text-gray-500 py-2">
-            <Spinner className="size-6" />
-            Loading...
-          </div>
-        )}
+  return (
+    <>
+      <h2 className="sr-only">Users</h2>
+      <div
+        ref={listRef}
+        className="custom-scrollbar flex w-full min-h-0 flex-1 flex-col overflow-y-auto py-6 pe-4"
+        role="list"
+        aria-label="Users"
+        aria-busy={isFetchingNextPage}
+      >
+        <div
+          style={{
+            height: `${virtualizer.getTotalSize()}px`,
+            width: '100%',
+            position: 'relative',
+          }}
+          className="shrink-0"
+        >
+          {virtualizer.getVirtualItems().map((virtualRow) => {
+            const user = users[virtualRow.index];
+            return (
+              <div
+                key={user.id}
+                role="listitem"
+                data-index={virtualRow.index}
+                ref={virtualizer.measureElement}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  transform: `translateY(${virtualRow.start}px)`,
+                }}
+              >
+                <div className="py-1">
+                  <UserItem user={user} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div ref={endRef}>
+          {isFetchingNextPage && (
+            <div
+              className="flex w-full items-center justify-center gap-2 py-2 text-sm text-muted-foreground"
+              role="status"
+            >
+              <Spinner className="size-6" />
+              Loading more users...
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

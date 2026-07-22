@@ -50,8 +50,12 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
           onChange={setSortDir}
         />
       </div>
-      <span className="shrink-0 text-[13px] text-muted-foreground">
-        {totalCount} {totalCount > 1 ? 'users found' : 'user found'}
+      <span
+        className="shrink-0 text-[13px] text-muted-foreground"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {totalCount} {totalCount === 1 ? 'user found' : 'users found'}
       </span>
     </div>
   );

@@ -24,7 +24,11 @@ const FilterItem = ({ paramKey, value, count, checked, onCheckedChange }: Filter
           {value}
         </Label>
       </div>
-      <span id={`${paramKey}-${value}-count`} className="text-sm text-muted-foreground">
+      <span
+        id={`${paramKey}-${value}-count`}
+        className="text-sm text-muted-foreground"
+        aria-label={`${count} users`}
+      >
         {count}
       </span>
     </li>

@@ -4,7 +4,12 @@ import Sidebar from '../Sidebar';
 
 const HomePageSkeleton = () => {
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 py-4 md:flex-row md:gap-0">
+    <div
+      className="flex min-h-0 flex-1 flex-col gap-4 py-4 md:flex-row md:gap-0"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <span className="sr-only">Loading users</span>
       <Sidebar>
         <div className="flex flex-col gap-2">
           <Skeleton className="h-8 w-full bg-slate-200 rounded-none" />

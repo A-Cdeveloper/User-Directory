@@ -30,6 +30,7 @@ const SortingField = <T extends string>({
   return (
     <Select value={value} onValueChange={(next) => onChange(next as T)}>
       <SelectTrigger
+        aria-label={placeholder}
         className={cn('w-fit rounded-none border-gray-300 bg-white shadow-none', className)}
       >
         <SelectValue placeholder={placeholder} />

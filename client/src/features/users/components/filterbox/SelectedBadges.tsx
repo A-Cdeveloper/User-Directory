@@ -23,7 +23,7 @@ const SelectedBadges = ({
   if (activeFilters.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-2 flex-wrap">
+    <div className="flex items-center gap-2 flex-wrap" role="group" aria-label="Selected filters">
       {activeFilters.map((filter) => (
         <Badge
           key={`${filter.paramKey}-${filter.value}`}

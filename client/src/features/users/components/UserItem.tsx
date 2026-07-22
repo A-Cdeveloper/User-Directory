@@ -16,7 +16,11 @@ const UserHobbies = ({ hobbies }: { hobbies: string[] }) => {
         </Badge>
       ))}
       {hobbies.length > 2 && (
-        <Badge variant="secondaryMuted" className="text-[12px] leading-none rounded-full px-1 py-1">
+        <Badge
+          variant="secondaryMuted"
+          className="text-[12px] leading-none rounded-full px-1 py-1"
+          aria-label={`${hobbies.length - 2} more hobbies`}
+        >
           +{hobbies.length - 2}
         </Badge>
       )}
@@ -37,7 +41,7 @@ const UserItem = ({ user }: { user: User }) => {
       </Avatar>
 
       <div className="min-w-0 flex-1">
-        <h3 className="truncate text-md font-bold">{fullName}</h3>
+        <p className="truncate text-md font-bold">{fullName}</p>
         <p className="truncate text-sm text-muted-foreground">{user.nationality}</p>
         <div className="flex items-center gap-2 my-1.5">
           <UserHobbies hobbies={user.hobbies} />
@@ -45,7 +49,10 @@ const UserItem = ({ user }: { user: User }) => {
       </div>
 
       <div className="flex items-center gap-2">
-        <span className="text-sm text-muted-foreground">{user.age}</span>
+        <span className="text-sm text-muted-foreground">
+          <span className="sr-only">Age </span>
+          {user.age}
+        </span>
       </div>
     </div>
   );

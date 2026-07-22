@@ -13,6 +13,7 @@ const SearchInput = ({ placeholder, value, onChange, className }: SearchInputPro
     <Input
       type="search"
       placeholder={placeholder}
+      aria-label={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
       className={cn(

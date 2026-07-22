@@ -32,12 +32,11 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
         aria-expanded={isOpen}
         aria-controls={listId}
         onClick={() => setIsOpen((open) => !open)}
-        aria-label={`Toggle ${title} filter`}
       >
         <span>
           {title}{' '}
-          {selected?.length > 0 && (
-            <span className="text-sm text-muted-foreground">({selected?.length})</span>
+          {selected.length > 0 && (
+            <span className="text-sm text-muted-foreground">({selected.length})</span>
           )}
         </span>
 
@@ -48,37 +47,35 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
         )}
       </Button>
 
-      {isOpen && (
-        <>
-          <ul
-            id={listId}
-            className="custom-scrollbar flex max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]"
+      <ul
+        id={listId}
+        hidden={!isOpen}
+        className="custom-scrollbar flex max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]"
+      >
+        {visibleOptions.map((option) => (
+          <FilterItem
+            key={option.value}
+            paramKey={paramKey}
+            value={option.value}
+            checked={selected.includes(option.value)}
+            count={option.count}
+            onCheckedChange={(checked) => toggleFilter(paramKey, option.value, checked)}
+          />
+        ))}
+      </ul>
+
+      {isOpen && selected.length > 0 && (
+        <div className="flex justify-end px-2">
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="my-2 h-auto px-0 text-[13px] text-destructive hover:bg-transparent hover:text-destructive"
+            onClick={() => clearGroup(paramKey)}
           >
-            {visibleOptions.map((option) => (
-              <FilterItem
-                key={option.value}
-                paramKey={paramKey}
-                value={option.value}
-                checked={selected.includes(option.value)}
-                count={option.count}
-                onCheckedChange={(checked) => toggleFilter(paramKey, option.value, checked)}
-              />
-            ))}
-          </ul>
-          {selected?.length > 0 && (
-            <div className="px-2 justify-end flex">
-              <span
-                className="ps-6 text-[13px] my-4 cursor-pointer text-destructive"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  clearGroup(paramKey);
-                }}
-              >
-                reset filter
-              </span>
-            </div>
-          )}
-        </>
+            Reset {title.toLowerCase()}
+          </Button>
+        </div>
       )}
     </div>
   );
