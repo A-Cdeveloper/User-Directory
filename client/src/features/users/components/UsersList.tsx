@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import UserItem from './UserItem';
 import type { User } from '@/types/user';
 import { Spinner } from '@/components/ui/spinner';
@@ -88,4 +88,4 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
   );
 };
 
-export default UsersList;
+export default memo(UsersList);

@@ -7,6 +7,7 @@ import FilterSidebar from '@/features/users/components/sidebar/FilterSidebar';
 import UsersList from '@/features/users/components/UsersList';
 import { useUsers } from '@/features/users/hooks/useUsers';
 import { useUserFilters } from '@/features/users/hooks/useUserFilters';
+import { useMemo } from 'react';
 
 const HomePage = () => {
   const { nationalities, hobbies, sortBy, sortDir, debouncedSearch } = useUserFilters();
@@ -19,6 +20,8 @@ const HomePage = () => {
     sortDir,
     search: debouncedSearch,
   });
+
+  const users = useMemo(() => data?.pages.flatMap((page) => page.users) ?? [], [data?.pages]);
 
   // Keep sidebar mounted while filters refetch (avoid skeleton flash)
   if (isLoading && !data) {
@@ -40,7 +43,7 @@ const HomePage = () => {
         <UsersList
           // Remount on filter change so scroll resets to top
           key={`n:${nationalities.join(',')}|h:${hobbies.join(',')}|sb:${sortBy}|sd:${sortDir}|s:${debouncedSearch}`}
-          users={data?.pages.flatMap((page) => page.users) ?? []}
+          users={users}
           onFetchNextPage={fetchNextPage}
           hasNextPage={hasNextPage ?? false}
           isFetchingNextPage={isFetchingNextPage}
