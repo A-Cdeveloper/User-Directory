@@ -59,20 +59,18 @@ export const useUrlParams = () => {
     setSearchParams(nextParams);
   };
 
-  const clearAllFilters = (keys: string[]) => {
+  const clearParams = (keys: string[]) => {
     const nextParams = new URLSearchParams(searchParams);
-    keys.forEach((key) => {
-      nextParams.delete(key);
-    });
+    keys.forEach((key) => nextParams.delete(key));
     setSearchParams(nextParams);
   };
 
   return {
+    clearListParam,
+    clearParams,
     getParam,
     setParam,
     getListParam,
     setListParamValue,
-    clearListParam,
-    clearAllFilters,
   };
 };

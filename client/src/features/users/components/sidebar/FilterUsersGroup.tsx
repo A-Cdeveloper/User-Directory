@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { ChevronDown, ChevronRight } from 'lucide-react';
-import FilterItem from './FilterItem';
-import type { FilterOption } from '@/types/user';
 import { Button } from '@/components/ui/button';
-import { useUrlParams } from '@/hooks/useUrlParams';
 import { withSelectedFilterOptions } from '@/features/users/utils/withSelectedFilterOptions';
+import { useUserFilters } from '@/features/users/hooks/useUserFilters';
+import type { FilterOption } from '@/types/user';
+import { ChevronDown, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
+import FilterItem from './FilterItem';
 
 type FilterGroupProps = {
   title: string;
@@ -16,8 +16,10 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
   const headingId = `${paramKey}-heading`;
   const listId = `${paramKey}-list`;
   const [isOpen, setIsOpen] = useState(true);
-  const { getListParam, setListParamValue, clearListParam } = useUrlParams();
-  const selected = getListParam(paramKey);
+  const { nationalities, hobbies, toggleFilter, clearGroup } = useUserFilters();
+
+  const selected =
+    paramKey === 'nationalities' ? nationalities : paramKey === 'hobbies' ? hobbies : [];
   const visibleOptions = withSelectedFilterOptions(options, selected);
 
   return (
@@ -59,7 +61,7 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
                 value={option.value}
                 checked={selected.includes(option.value)}
                 count={option.count}
-                onCheckedChange={(checked) => setListParamValue(paramKey, option.value, checked)}
+                onCheckedChange={(checked) => toggleFilter(paramKey, option.value, checked)}
               />
             ))}
           </ul>
@@ -69,7 +71,7 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
                 className="ps-6 text-[13px] my-4 cursor-pointer text-destructive"
                 onClick={(e) => {
                   e.stopPropagation();
-                  clearListParam(paramKey);
+                  clearGroup(paramKey);
                 }}
               >
                 reset filter

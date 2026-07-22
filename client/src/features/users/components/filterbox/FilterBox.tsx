@@ -1,27 +1,22 @@
-import {
-  DEFAULT_SORT_BY,
-  DEFAULT_SORT_DIR,
-  SORT_BY_OPTIONS,
-  SORT_DIR_OPTIONS,
-} from '@/features/users/constants';
-import { useUrlParams } from '@/hooks/useUrlParams';
-import type { SortBy, SortDir } from '@/types/users';
+import { SORT_BY_OPTIONS, SORT_DIR_OPTIONS } from '@/features/users/constants';
 import SearchInput from './SearchInput';
 import SelectedBadges from './SelectedBadges';
 import SortingField from './SortingField';
+import { useUserFilters } from '@/features/users/hooks/useUserFilters';
 
 const FilterBox = ({ totalCount }: { totalCount: number }) => {
-  const { getParam, setParam, getListParam, setListParamValue, clearAllFilters } = useUrlParams();
-  const sortBy = (getParam('sortBy') || DEFAULT_SORT_BY) as SortBy;
-  const sortDir = (getParam('sortDir') || DEFAULT_SORT_DIR) as SortDir;
-  const search = getParam('search');
-
-  const nationalities = getListParam('nationalities');
-  const hobbies = getListParam('hobbies');
-
-  const removeFilter = (paramKey: string, value: string) => {
-    setListParamValue(paramKey, value, false);
-  };
+  const {
+    nationalities,
+    hobbies,
+    sortBy,
+    sortDir,
+    search,
+    setSearch,
+    setSortBy,
+    setSortDir,
+    removeFilter,
+    clearAllFilters,
+  } = useUserFilters();
 
   return (
     <div className="flex w-full shrink-0 flex-col gap-3 bg-accent p-4">
@@ -29,13 +24,13 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
         nationalities={nationalities}
         hobbies={hobbies}
         removeFilter={removeFilter}
-        clearAll={() => clearAllFilters(['nationalities', 'hobbies'])}
+        clearAll={clearAllFilters}
       />
       <div className="flex items-center justify-between gap-4">
         <SearchInput
           placeholder="Search by last / first name"
           value={search}
-          onChange={(value) => setParam('search', value, { replace: true })}
+          onChange={setSearch}
         />
       </div>
       <div className="flex items-center gap-2">
@@ -44,7 +39,7 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
           placeholder="Sort by"
           className="w-[160px]"
           options={SORT_BY_OPTIONS}
-          onChange={(value) => setParam('sortBy', value)}
+          onChange={setSortBy}
         />
 
         <SortingField
@@ -52,7 +47,7 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
           placeholder="Direction"
           className="w-[120px]"
           options={SORT_DIR_OPTIONS}
-          onChange={(value) => setParam('sortDir', value)}
+          onChange={setSortDir}
         />
       </div>
       <span className="shrink-0 text-[13px] text-muted-foreground">
