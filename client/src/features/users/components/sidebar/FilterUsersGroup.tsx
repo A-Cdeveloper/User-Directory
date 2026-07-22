@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { withSelectedFilterOptions } from '@/features/users/utils/withSelectedFilterOptions';
 import { useUserFilters } from '@/features/users/hooks/useUserFilters';
+import { cn } from '@/lib/utils';
 import type { FilterOption } from '@/types/user';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
@@ -25,10 +26,10 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
   return (
     <div role="group" aria-labelledby={headingId} className="flex shrink-0 flex-col border-b">
       <Button
+        type="button"
         variant="ghost"
         id={headingId}
-        className="mb-0 flex shrink-0 items-center justify-between gap-2 font-bold text-muted-foreground py-2 rounded-none
-        hover:rounded-none ps-2"
+        className="mb-0 flex shrink-0 items-center justify-between gap-2 rounded-none py-2 ps-2 font-bold text-muted-foreground hover:rounded-none"
         aria-expanded={isOpen}
         aria-controls={listId}
         onClick={() => setIsOpen((open) => !open)}
@@ -49,8 +50,10 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
 
       <ul
         id={listId}
-        hidden={!isOpen}
-        className="custom-scrollbar flex max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]"
+        className={cn(
+          'custom-scrollbar max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]',
+          isOpen ? 'flex' : 'hidden',
+        )}
       >
         {visibleOptions.map((option) => (
           <FilterItem
