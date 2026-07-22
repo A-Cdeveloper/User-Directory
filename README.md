@@ -57,12 +57,12 @@ npm run seed -w server
 - Virtualized list rows (`@tanstack/react-virtual`) so only visible cards mount in the DOM
 - Debounced search (URL updates immediately; API calls wait ~500ms)
 - Filter sidebar (nationalities OR, hobbies AND) synced to the URL
-- Selected filters stay visible when omitted from top facet options
+- Selected filter badges with clear-all, sticky selected facets when omitted from top options
 - Sort by field and direction, synced to the URL
+- Shareable filter / sort / search state via search params
 - Loading and error states (skeletons, error boundary / route error page)
-- Shareable filter/sort/search state via search params
-
-**Still planned:** mobile filter drawer
+- Accessibility basics (labels, live regions, keyboard-friendly filter controls)
+- Production vendor chunk splitting for long-term browser caching
 
 ## API
 
@@ -154,16 +154,19 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 
 ## Scripts
 
-| Command                  | Description                      |
-| ------------------------ | -------------------------------- |
-| `npm run dev`            | Start client and server together |
-| `npm run dev -w server`  | Start server only                |
-| `npm run seed -w server` | Seed database manually           |
-| `npm run lint`           | ESLint (whole repo)              |
-| `npm run format`         | Prettier write                   |
-| `npm run format:check`   | Prettier check                   |
+| Command                   | Description                      |
+| ------------------------- | -------------------------------- |
+| `npm run dev`             | Start client and server together |
+| `npm run dev -w server`   | Start server only                |
+| `npm run seed -w server`  | Seed database manually           |
+| `npm run lint`            | ESLint (whole repo)              |
+| `npm run format`          | Prettier write                   |
+| `npm run format:check`    | Prettier check                   |
+| `npm run build -w client` | Production build (client)        |
 
 ## Environment
+
+Copy from examples, then adjust if needed:
 
 **Server** (`server/.env.development`):
 
@@ -172,7 +175,7 @@ PORT=3001
 DB_PATH=./users.db
 ```
 
-**Client** (`client/.env.development`):
+**Client** (`client/.env.example` → `.env.development` / `.env.production`):
 
 ```
 VITE_API_URL=http://localhost:3001/api
