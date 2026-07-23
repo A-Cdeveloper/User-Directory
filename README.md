@@ -50,6 +50,8 @@ npm run seed -w server
 - Faceted filter counts in the response
 - Zod query validation
 - Layered structure: routes → services → lib → schemas → types
+- Vitest unit tests (query schema, where-clause builder)
+- HTTP tests with Supertest (`/health`, `/api/users`, 400/404)
 
 ### Client
 
@@ -138,13 +140,16 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 │       ├── providers/
 │       └── components/
 ├── server/
+│   ├── vitest.config.ts
 │   └── src/
-│       ├── index.ts
+│       ├── app.ts          # Express app (testable, no listen)
+│       ├── index.ts        # listen + seed
+│       ├── app.test.ts
 │       ├── database/       # SQLite + seed
 │       ├── routes/
 │       ├── services/
-│       ├── schemas/
-│       ├── lib/
+│       ├── schemas/        # + *.test.ts
+│       ├── lib/            # + *.test.ts
 │       ├── types/
 │       └── middleware/
 ├── eslint.config.js
@@ -162,6 +167,8 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 | `npm run lint`            | ESLint (whole repo)              |
 | `npm run format`          | Prettier write                   |
 | `npm run format:check`    | Prettier check                   |
+| `npm test`                | Run server tests (Vitest)        |
+| `npm run test -w server`  | Same, server workspace only      |
 | `npm run build -w client` | Production build (client)        |
 
 ## Environment
