@@ -9,7 +9,8 @@
     "start": "tsx src/index.ts",
     "seed": "tsx src/database/seed.ts",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0",
@@ -25,6 +26,7 @@
     "@types/express": "^5.0.3",
     "@types/node": "^24.0.15",
     "@types/supertest": "^7.2.1",
+    "@vitest/coverage-v8": "^4.1.10",
     "supertest": "^7.2.2",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",

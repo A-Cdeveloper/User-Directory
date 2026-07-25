@@ -17,6 +17,7 @@
     "format:check": "prettier --check .",
     "test": "npm run test -w server && npm run test -w client",
     "test:watch": "npm run test:watch -w server && npm run test:watch -w client",
+    "test:coverage": "npm run test:coverage -w server && npm run test:coverage -w client",
     "prepare": "husky"
   },
   "lint-staged": {
