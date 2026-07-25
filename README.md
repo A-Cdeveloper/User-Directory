@@ -52,6 +52,7 @@ npm run seed -w server
 - Layered structure: routes → services → lib → schemas → types
 - Vitest unit tests (query schema, where-clause builder)
 - HTTP tests with Supertest (`/health`, `/api/users`, 400/404)
+- Coverage via `@vitest/coverage-v8` (`npm run test:coverage -w server`)
 
 ### Client
 
@@ -65,6 +66,8 @@ npm run seed -w server
 - Loading and error states (skeletons, error boundary / route error page)
 - Accessibility basics (labels, live regions, keyboard-friendly filter controls)
 - Production vendor chunk splitting for long-term browser caching
+- Vitest + Testing Library unit/RTL coverage (utils, hooks, API, key components)
+- Coverage via `@vitest/coverage-v8` (`npm run test:coverage -w client`)
 
 ## API
 
@@ -134,7 +137,9 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 
 ```
 ├── client/                 # React + Vite app
+│   ├── vitest.config.ts
 │   └── src/
+│       ├── __tests__/      # Unit + RTL tests (mirrors features/)
 │       ├── features/users/ # Users UI, hooks, API
 │       ├── pages/
 │       ├── providers/
@@ -159,17 +164,21 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 
 ## Scripts
 
-| Command                   | Description                      |
-| ------------------------- | -------------------------------- |
-| `npm run dev`             | Start client and server together |
-| `npm run dev -w server`   | Start server only                |
-| `npm run seed -w server`  | Seed database manually           |
-| `npm run lint`            | ESLint (whole repo)              |
-| `npm run format`          | Prettier write                   |
-| `npm run format:check`    | Prettier check                   |
-| `npm test`                | Run server tests (Vitest)        |
-| `npm run test -w server`  | Same, server workspace only      |
-| `npm run build -w client` | Production build (client)        |
+| Command                           | Description                                 |
+| --------------------------------- | ------------------------------------------- |
+| `npm run dev`                     | Start client and server together            |
+| `npm run dev -w server`           | Start server only                           |
+| `npm run seed -w server`          | Seed database manually                      |
+| `npm run lint`                    | ESLint (whole repo)                         |
+| `npm run format`                  | Prettier write                              |
+| `npm run format:check`            | Prettier check                              |
+| `npm test`                        | Run server + client Vitest suites           |
+| `npm run test -w server`          | Server tests only                           |
+| `npm run test -w client`          | Client tests only                           |
+| `npm run test:coverage`           | Coverage for server + client                |
+| `npm run test:coverage -w server` | Server coverage (HTML in `server/coverage`) |
+| `npm run test:coverage -w client` | Client coverage (HTML in `client/coverage`) |
+| `npm run build -w client`         | Production build (client)                   |
 
 ## Environment
 
