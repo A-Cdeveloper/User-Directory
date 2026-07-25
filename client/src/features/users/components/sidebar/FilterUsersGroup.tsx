@@ -24,18 +24,24 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
   const visibleOptions = withSelectedFilterOptions(options, selected);
 
   return (
-    <div role="group" aria-labelledby={headingId} className="flex shrink-0 flex-col border-b">
+    <div
+      role="group"
+      aria-labelledby={headingId}
+      className="flex shrink-0 flex-col border-b"
+      data-testid="filter-group"
+    >
       <Button
         type="button"
         variant="ghost"
         id={headingId}
+        data-testid="filter-group-heading"
         className="mb-0 flex shrink-0 items-center justify-between gap-2 rounded-none py-2 ps-2 font-bold text-muted-foreground hover:rounded-none"
         aria-expanded={isOpen}
         aria-controls={listId}
         onClick={() => setIsOpen((open) => !open)}
       >
         <span>
-          {title}{' '}
+          {title}
           {selected.length > 0 && (
             <span className="text-sm text-muted-foreground">({selected.length})</span>
           )}
@@ -50,6 +56,7 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
 
       <ul
         id={listId}
+        data-testid="filter-group-list"
         className={cn(
           'custom-scrollbar max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]',
           isOpen ? 'flex' : 'hidden',
@@ -73,6 +80,7 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
             type="button"
             variant="ghost"
             size="sm"
+            data-testid="filter-group-reset"
             className="my-2 h-auto px-0 text-[13px] text-destructive hover:bg-transparent hover:text-destructive"
             onClick={() => clearGroup(paramKey)}
           >

@@ -54,6 +54,7 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
         className="shrink-0 text-[13px] text-muted-foreground"
         aria-live="polite"
         aria-atomic="true"
+        data-testid="filter-box-count"
       >
         {totalCount} {totalCount === 1 ? 'user found' : 'users found'}
       </span>

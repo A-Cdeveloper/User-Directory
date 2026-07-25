@@ -45,6 +45,7 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
       <div
         className="flex w-full min-h-0 flex-1 items-center justify-center py-6 pe-4 text-sm text-muted-foreground"
         role="status"
+        data-testid="users-list-empty"
       >
         No users found
       </div>
@@ -60,6 +61,7 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
         role="list"
         aria-label="Users"
         aria-busy={isFetchingNextPage}
+        data-testid="users-list"
       >
         <div
           style={{
@@ -76,6 +78,7 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
                 key={user.id}
                 role="listitem"
                 data-index={virtualRow.index}
+                data-testid="users-list-item"
                 ref={virtualizer.measureElement}
                 style={{
                   position: 'absolute',
@@ -93,11 +96,12 @@ const UsersList = ({ users, onFetchNextPage, hasNextPage, isFetchingNextPage }: 
           })}
         </div>
 
-        <div ref={endRef}>
+        <div ref={endRef} data-testid="users-list-end">
           {isFetchingNextPage && (
             <div
               className="flex w-full items-center justify-center gap-2 py-2 text-sm text-muted-foreground"
               role="status"
+              data-testid="users-list-loading"
             >
               <Spinner className="size-6" />
               Loading more users...

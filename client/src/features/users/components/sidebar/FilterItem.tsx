@@ -15,17 +15,23 @@ const FilterItem = ({ paramKey, value, count, checked, onCheckedChange }: Filter
       <div className="flex items-center gap-2">
         <Checkbox
           id={`${paramKey}-${value}`}
+          data-testid={`filter-item-${paramKey}-${value}`}
           aria-describedby={`${paramKey}-${value}-count`}
           checked={checked}
           className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
           onCheckedChange={(state) => onCheckedChange(state === true)}
         />
-        <Label htmlFor={`${paramKey}-${value}`} className="text-sm text-muted-foreground">
+        <Label
+          htmlFor={`${paramKey}-${value}`}
+          data-testid={`filter-item-${paramKey}-${value}-label`}
+          className="text-sm text-muted-foreground"
+        >
           {value}
         </Label>
       </div>
       <span
         id={`${paramKey}-${value}-count`}
+        data-testid={`filter-item-${paramKey}-${value}-count`}
         className="text-sm text-muted-foreground"
         aria-label={`${count} users`}
       >

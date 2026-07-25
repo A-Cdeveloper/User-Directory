@@ -12,6 +12,7 @@ const SearchInput = ({ placeholder, value, onChange, className }: SearchInputPro
   return (
     <Input
       type="search"
+      data-testid="search-input"
       placeholder={placeholder}
       aria-label={placeholder}
       value={value}

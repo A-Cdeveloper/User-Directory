@@ -23,12 +23,18 @@ const SelectedBadges = ({
   if (activeFilters.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-2 flex-wrap" role="group" aria-label="Selected filters">
+    <div
+      className="flex items-center gap-2 flex-wrap"
+      role="group"
+      aria-label="Selected filters"
+      data-testid="selected-badges"
+    >
       {activeFilters.map((filter) => (
         <Badge
           key={`${filter.paramKey}-${filter.value}`}
           variant="default"
           className="text-[12px] rounded-full py-0.5 ps-2.5 pe-1.5 flex items-center justify-between gap-x-1.5"
+          data-testid="selected-badge"
         >
           <span className="truncate leading-normal">{filter.value}</span>
           <Button
@@ -37,6 +43,7 @@ const SelectedBadges = ({
             onClick={() => removeFilter(filter.paramKey, filter.value)}
             type="button"
             aria-label={`Remove ${filter.value} filter`}
+            data-testid={`remove-${filter.paramKey}-${filter.value}`}
           >
             <XIcon className="h-1.5 w-1.5" />
           </Button>
@@ -49,6 +56,7 @@ const SelectedBadges = ({
         onClick={clearAll}
         type="button"
         aria-label="Clear all filters"
+        data-testid="selected-badges-clear-all"
       >
         Clear all
       </Button>
