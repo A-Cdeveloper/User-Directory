@@ -2,6 +2,10 @@ import { describe, it, expect } from 'vitest';
 import request from 'supertest';
 import { createApp } from './app.js';
 
+const ALLOWED_ORIGIN = 'http://localhost:3002';
+
+process.env.CORS_ORIGINS = ALLOWED_ORIGIN;
+
 const app = createApp();
 
 describe('GET /health', () => {
@@ -17,6 +21,20 @@ describe('GET /health', () => {
 
     expect(res.headers['x-content-type-options']).toBe('nosniff');
     expect(res.headers['x-frame-options']).toBe('SAMEORIGIN');
+  });
+});
+
+describe('CORS', () => {
+  it('allows a configured origin', async () => {
+    const res = await request(app).get('/health').set('Origin', ALLOWED_ORIGIN);
+
+    expect(res.headers['access-control-allow-origin']).toBe(ALLOWED_ORIGIN);
+  });
+
+  it('does not allow an unknown origin', async () => {
+    const res = await request(app).get('/health').set('Origin', 'http://evil.example');
+
+    expect(res.headers['access-control-allow-origin']).toBeUndefined();
   });
 });
 

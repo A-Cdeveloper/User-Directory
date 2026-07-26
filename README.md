@@ -191,7 +191,10 @@ Copy from examples, then adjust if needed:
 ```
 PORT=3001
 DB_PATH=./users.db
+CORS_ORIGINS=http://localhost:3002
 ```
+
+`CORS_ORIGINS` is a comma-separated allowlist; browser requests from other origins are rejected.
 
 Loads `.env`, then `.env.${NODE_ENV}` (`development` by default), then `.env.development` to fill any gaps (e.g. tests).
 
