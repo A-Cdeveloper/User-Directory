@@ -1,6 +1,7 @@
 import './database/db.js';
 import cors from 'cors';
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js';
 import usersRouter from './routes/users.js';
@@ -14,6 +15,8 @@ const parseOrigins = (value: string | undefined) =>
 export function createApp() {
   const app = express();
   const allowedOrigins = parseOrigins(process.env.CORS_ORIGINS);
+  const rateLimitMax = Number(process.env.RATE_LIMIT_MAX) || 10;
+  const rateLimitWindowMs = Number(process.env.RATE_LIMIT_WINDOW_MS) || 60_000;
 
   app.use(helmet());
   app.use(
@@ -29,6 +32,17 @@ export function createApp() {
   app.get('/health', (_req, res) => {
     res.json({ status: 'ok' });
   });
+
+  app.use(
+    '/api',
+    rateLimit({
+      windowMs: rateLimitWindowMs,
+      max: rateLimitMax,
+      standardHeaders: true,
+      legacyHeaders: false,
+      message: { error: 'Too many requests, please try again later' },
+    }),
+  );
 
   app.use('/api/users', usersRouter);
   app.use(notFoundHandler);

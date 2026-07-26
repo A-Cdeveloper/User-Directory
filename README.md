@@ -192,9 +192,12 @@ Copy from examples, then adjust if needed:
 PORT=3001
 DB_PATH=./users.db
 CORS_ORIGINS=http://localhost:3002
+RATE_LIMIT_MAX=10
+RATE_LIMIT_WINDOW_MS=60000
 ```
 
 `CORS_ORIGINS` is a comma-separated allowlist; browser requests from other origins are rejected.
+`RATE_LIMIT_*` caps `/api` requests per IP (default: 10 per minute). `/health` is not limited.
 
 Loads `.env`, then `.env.${NODE_ENV}` (`development` by default), then `.env.development` to fill any gaps (e.g. tests).
 
