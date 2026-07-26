@@ -11,6 +11,13 @@ describe('GET /health', () => {
     expect(res.status).toBe(200);
     expect(res.body).toEqual({ status: 'ok' });
   });
+
+  it('sets Helmet security headers', async () => {
+    const res = await request(app).get('/health');
+
+    expect(res.headers['x-content-type-options']).toBe('nosniff');
+    expect(res.headers['x-frame-options']).toBe('SAMEORIGIN');
+  });
 });
 
 describe('GET /api/users', () => {
