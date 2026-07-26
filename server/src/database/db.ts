@@ -1,8 +1,6 @@
-import dotenv from 'dotenv';
+import '../config/env.js';
 import Database from 'better-sqlite3';
 import path from 'node:path';
-
-dotenv.config({ path: path.resolve(process.cwd(), '.env.development') });
 
 const dbPath = process.env.DB_PATH ?? path.join(process.cwd(), 'users.db');
 const db = new Database(dbPath);

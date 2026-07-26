@@ -179,17 +179,21 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 | `npm run test:coverage -w server` | Server coverage (HTML in `server/coverage`) |
 | `npm run test:coverage -w client` | Client coverage (HTML in `client/coverage`) |
 | `npm run build -w client`         | Production build (client)                   |
+| `npm run build -w server`         | Compile server TypeScript to `dist/`        |
+| `npm run start -w server`         | Run compiled server (`node dist`)           |
 
 ## Environment
 
 Copy from examples, then adjust if needed:
 
-**Server** (`server/.env.development`):
+**Server** (`server/.env.example` → `.env.development` / `.env.production`):
 
 ```
 PORT=3001
 DB_PATH=./users.db
 ```
+
+Loads `.env`, then `.env.${NODE_ENV}` (`development` by default), then `.env.development` to fill any gaps (e.g. tests).
 
 **Client** (`client/.env.example` → `.env.development` / `.env.production`):
 
