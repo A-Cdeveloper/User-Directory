@@ -8,6 +8,7 @@ const HomePageSkeleton = () => {
       className="flex min-h-0 flex-1 flex-col gap-4 py-4 md:flex-row md:gap-0"
       aria-busy="true"
       aria-live="polite"
+      data-testid="home-page-skeleton"
     >
       <span className="sr-only">Loading users</span>
       <Sidebar>

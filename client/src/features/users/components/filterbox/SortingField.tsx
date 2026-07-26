@@ -15,6 +15,7 @@ type Option<T extends string> = {
 type SortingFieldProps<T extends string> = {
   value: T;
   placeholder: string;
+  testId: string;
   className?: string;
   options: Option<T>[];
   onChange: (value: T) => void;
@@ -23,6 +24,7 @@ type SortingFieldProps<T extends string> = {
 const SortingField = <T extends string>({
   value,
   placeholder,
+  testId,
   className,
   options,
   onChange,
@@ -30,6 +32,7 @@ const SortingField = <T extends string>({
   return (
     <Select value={value} onValueChange={(next) => onChange(next as T)}>
       <SelectTrigger
+        data-testid={testId}
         aria-label={placeholder}
         className={cn('w-fit rounded-none border-gray-300 bg-white shadow-none', className)}
       >

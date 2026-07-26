@@ -39,6 +39,8 @@ client/.vite/
 
 # Coverage / test artifacts
 coverage/
+client/cypress/screenshots/
+client/cypress/videos/
 
 # Personal notes (not for submission)
 INTERVIEW-PLAN.md

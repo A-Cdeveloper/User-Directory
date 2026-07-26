@@ -37,6 +37,7 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
         <SortingField
           value={sortBy}
           placeholder="Sort by"
+          testId="sort-by-select"
           className="w-[160px]"
           options={SORT_BY_OPTIONS}
           onChange={setSortBy}
@@ -45,6 +46,7 @@ const FilterBox = ({ totalCount }: { totalCount: number }) => {
         <SortingField
           value={sortDir}
           placeholder="Direction"
+          testId="sort-direction-select"
           className="w-[120px]"
           options={SORT_DIR_OPTIONS}
           onChange={setSortDir}

@@ -67,6 +67,7 @@ npm run seed -w server
 - Accessibility basics (labels, live regions, keyboard-friendly filter controls)
 - Production vendor chunk splitting for long-term browser caching
 - Vitest + Testing Library unit/RTL coverage (utils, hooks, API, key components)
+- Cypress E2E (`users.cy.ts` happy path + `users-states.cy.ts` mocked loading/error/empty)
 - Coverage via `@vitest/coverage-v8` (`npm run test:coverage -w client`)
 
 ## API
@@ -137,6 +138,8 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 
 ```
 ├── client/                 # React + Vite app
+│   ├── cypress/            # E2E specs (happy path + UI states)
+│   ├── cypress.config.ts
 │   ├── vitest.config.ts
 │   └── src/
 │       ├── __tests__/      # Unit + RTL tests (mirrors features/)
@@ -164,23 +167,25 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 
 ## Scripts
 
-| Command                           | Description                                 |
-| --------------------------------- | ------------------------------------------- |
-| `npm run dev`                     | Start client and server together            |
-| `npm run dev -w server`           | Start server only                           |
-| `npm run seed -w server`          | Seed database manually                      |
-| `npm run lint`                    | ESLint (whole repo)                         |
-| `npm run format`                  | Prettier write                              |
-| `npm run format:check`            | Prettier check                              |
-| `npm test`                        | Run server + client Vitest suites           |
-| `npm run test -w server`          | Server tests only                           |
-| `npm run test -w client`          | Client tests only                           |
-| `npm run test:coverage`           | Coverage for server + client                |
-| `npm run test:coverage -w server` | Server coverage (HTML in `server/coverage`) |
-| `npm run test:coverage -w client` | Client coverage (HTML in `client/coverage`) |
-| `npm run build -w client`         | Production build (client)                   |
-| `npm run build -w server`         | Compile server TypeScript to `dist/`        |
-| `npm run start -w server`         | Run compiled server (`node dist`)           |
+| Command                           | Description                                  |
+| --------------------------------- | -------------------------------------------- |
+| `npm run dev`                     | Start client and server together             |
+| `npm run dev -w server`           | Start server only                            |
+| `npm run seed -w server`          | Seed database manually                       |
+| `npm run lint`                    | ESLint (whole repo)                          |
+| `npm run format`                  | Prettier write                               |
+| `npm run format:check`            | Prettier check                               |
+| `npm test`                        | Run server + client Vitest suites            |
+| `npm run test -w server`          | Server tests only                            |
+| `npm run test -w client`          | Client tests only                            |
+| `npm run test:coverage`           | Coverage for server + client                 |
+| `npm run test:coverage -w server` | Server coverage (HTML in `server/coverage`)  |
+| `npm run test:coverage -w client` | Client coverage (HTML in `client/coverage`)  |
+| `npm run cy:open -w client`       | Cypress interactive UI (app must be running) |
+| `npm run cy:run -w client`        | Cypress headless E2E                         |
+| `npm run build -w client`         | Production build (client)                    |
+| `npm run build -w server`         | Compile server TypeScript to `dist/`         |
+| `npm run start -w server`         | Run compiled server (`node dist`)            |
 
 ## Environment
 
