@@ -6,17 +6,38 @@ Full-stack application for browsing, filtering, sorting, and paginating a direct
 
 **Client:** React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, React Router, shadcn/ui  
 **Server:** Node.js, Express 5, TypeScript, better-sqlite3 (SQLite), Zod  
-**Architecture:** npm workspaces monorepo (`client` + `server`)
+**Architecture:** npm workspaces monorepo (`client` + `server`)  
+**Ops:** Docker Compose (API + nginx client), GitHub Actions CI
 
 ## Getting Started
 
+### Docker (recommended)
+
+Requires [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+
 ```bash
-npm install
+docker compose up --build -d
 ```
 
-### Full stack
+| Service | URL                             |
+| ------- | ------------------------------- |
+| Client  | http://localhost:3002           |
+| Server  | http://localhost:3001           |
+| Health  | http://localhost:3001/health    |
+| API     | http://localhost:3001/api/users |
+
+Stop:
 
 ```bash
+docker compose down
+```
+
+SQLite data lives in a named volume (`api-data`). Remove it with `docker compose down -v`.
+
+### Local development
+
+```bash
+npm install
 npm run dev
 ```
 
@@ -27,13 +48,13 @@ npm run dev
 | Health  | http://localhost:3001/health    |
 | API     | http://localhost:3001/api/users |
 
-### Server only
+#### Server only
 
 ```bash
 npm run dev -w server
 ```
 
-### Seed database
+#### Seed database
 
 Seed runs automatically on server start if the database is empty. To run manually:
 
@@ -138,6 +159,8 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 
 ```
 ├── client/                 # React + Vite app
+│   ├── Dockerfile          # multi-stage: Vite build → nginx
+│   ├── nginx.conf
 │   ├── cypress/            # E2E specs (happy path + UI states)
 │   ├── cypress.config.ts
 │   ├── vitest.config.ts
@@ -148,6 +171,7 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 │       ├── providers/
 │       └── components/
 ├── server/
+│   ├── Dockerfile          # Node build + better-sqlite3
 │   ├── vitest.config.ts
 │   └── src/
 │       ├── app.ts          # Express app (testable, no listen)
@@ -160,6 +184,8 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 │       ├── lib/            # + *.test.ts
 │       ├── types/
 │       └── middleware/
+├── docker-compose.yml      # api + client, healthcheck, volume
+├── .dockerignore
 ├── eslint.config.js
 ├── prettier.config.js
 └── package.json
@@ -186,6 +212,8 @@ GET /api/users?search=john&nationalities=British,Indian&hobbies=Reading,Coding&s
 | `npm run build -w client`         | Production build (client)                    |
 | `npm run build -w server`         | Compile server TypeScript to `dist/`         |
 | `npm run start -w server`         | Run compiled server (`node dist`)            |
+| `docker compose up --build -d`    | Build and run API + client in Docker         |
+| `docker compose down`             | Stop and remove Compose containers           |
 
 ## Environment
 
@@ -211,3 +239,10 @@ Loads `.env`, then `.env.${NODE_ENV}` (`development` by default), then `.env.dev
 ```
 VITE_API_URL=http://localhost:3001/api
 ```
+
+### Docker
+
+Compose sets server env at runtime (`environment` in `docker-compose.yml`).  
+Client `VITE_API_URL` is a **build arg** (baked into the Vite bundle).
+
+Defaults match local ports: client `3002`, API `3001`, CORS allowlist `http://localhost:3002`.
