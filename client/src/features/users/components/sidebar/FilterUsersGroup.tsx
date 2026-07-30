@@ -23,6 +23,8 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
     paramKey === 'nationalities' ? nationalities : paramKey === 'hobbies' ? hobbies : [];
   const visibleOptions = withSelectedFilterOptions(options, selected);
 
+  const hasOptions = options.length !== 0;
+
   return (
     <div
       role="group"
@@ -43,36 +45,46 @@ const FilterUserGroup = ({ title, paramKey, options }: FilterGroupProps) => {
         <span>
           {title}
           {selected.length > 0 && (
-            <span className="text-sm text-muted-foreground">({selected.length})</span>
+            <span className="text-sm text-muted-foreground"> ({selected.length})</span>
           )}
         </span>
 
-        {isOpen ? (
-          <ChevronDown className="size-4 shrink-0" aria-hidden />
-        ) : (
-          <ChevronRight className="size-4 shrink-0" aria-hidden />
+        {hasOptions && (
+          <>
+            {isOpen ? (
+              <ChevronDown className="size-4 shrink-0" aria-hidden />
+            ) : (
+              <ChevronRight className="size-4 shrink-0" aria-hidden />
+            )}
+          </>
         )}
       </Button>
 
-      <ul
-        id={listId}
-        data-testid="filter-group-list"
-        className={cn(
-          'custom-scrollbar max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]',
-          isOpen ? 'flex' : 'hidden',
-        )}
-      >
-        {visibleOptions.map((option) => (
-          <FilterItem
-            key={option.value}
-            paramKey={paramKey}
-            value={option.value}
-            checked={selected.includes(option.value)}
-            count={option.count}
-            onCheckedChange={(checked) => toggleFilter(paramKey, option.value, checked)}
-          />
-        ))}
-      </ul>
+      {hasOptions ? (
+        <ul
+          id={listId}
+          data-testid="filter-group-list"
+          className={cn(
+            'custom-scrollbar max-h-60 flex-col gap-2 overflow-y-auto border-t border-border px-2 py-4 md:max-h-[45vh]',
+            isOpen ? 'flex' : 'hidden',
+          )}
+        >
+          {visibleOptions.map((option) => (
+            <FilterItem
+              key={option.value}
+              paramKey={paramKey}
+              value={option.value}
+              checked={selected.includes(option.value)}
+              count={option.count}
+              onCheckedChange={(checked) => toggleFilter(paramKey, option.value, checked)}
+            />
+          ))}
+        </ul>
+      ) : (
+        <span className="text-[13px] text-destructive block px-2 py-4 border-t border-border">
+          No options to show
+        </span>
+      )}
 
       {isOpen && selected.length > 0 && (
         <div className="flex justify-end px-2">
